@@ -287,6 +287,13 @@ const FETCH_TIMEOUT = 10000; // 10 seconds
 
   // API: M3U Playlist
   app.get("/api/playlist", async (req, res) => {
+    const userAgent = req.headers["user-agent"] || "";
+    const isBrowser = /Mozilla/i.test(userAgent) && !/VLC|TiviMate|OTT|Smarters|Kodi|Perfect|Televizo|GSE|Lazy/i.test(userAgent);
+    
+    if (isBrowser) {
+      return res.redirect("https://t.me/xocietylive");
+    }
+
     const channels = await getChannels();
     let m3u = "#EXTM3U x-tvg-url=\"\"\n";
     
